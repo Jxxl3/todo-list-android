@@ -26,10 +26,8 @@ Our app helps users:
 ## Screenshots
 
 The main interface with no tasks
-![Picture of the app](images/s1.png)
-
+<img src="images/s1.png" alt="Picture of the app" width="300"/>
 What adding a task looks like
-![Task adding prompt](images/s2.png)
-
+<img src="images/s2.png" alt="Task adding prompt" width="300"/>
 Example list of tasks with different priorities
-![example list](images/s3.png)
+<img src="images/s3.png" alt="example list" width="300"/>
