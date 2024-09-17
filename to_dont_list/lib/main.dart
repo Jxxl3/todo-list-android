@@ -1,47 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:to_dont_list/objects/PriorityItem.dart';
 import 'package:to_dont_list/objects/item.dart';
 import 'package:to_dont_list/widgets/to_do_items.dart';
 import 'package:to_dont_list/widgets/to_do_dialog.dart';
 
 class ToDoList extends StatefulWidget {
-  const ToDoList({super.key});
+  const ToDoList({Key? key}) : super(key: key);
 
   @override
-  State createState() => _ToDoListState();
+  State<ToDoList> createState() => _ToDoListState();
 }
 
 class _ToDoListState extends State<ToDoList> {
-  final List<Item> items = [const Item(name: "add more todos")];
-  final _itemSet = <Item>{};
+  final List<PriorityItem> items = [];
+  final _itemSet = <PriorityItem>{};
 
   void _handleListChanged(Item item, bool completed) {
-    setState(() {
-      items.remove(item);
-      if (!completed) {
-        print("Completing");
-        _itemSet.add(item);
-        items.add(item);
-      } else {
-        print("Making Undone");
-        _itemSet.remove(item);
-        items.insert(0, item);
-      }
-    });
+    if (item is PriorityItem) {
+      setState(() {
+        if (completed) {
+          _itemSet.add(item);
+        } else {
+          _itemSet.remove(item);
+        }
+        _sortItems();
+      });
+    }
   }
 
   void _handleDeleteItem(Item item) {
+    if (item is PriorityItem) {
+      setState(() {
+        items.remove(item);
+        _itemSet.remove(item);
+      });
+    }
+  }
+
+  void _handleNewItem(String itemText, int priority) {
     setState(() {
-      print("Deleting item");
-      items.remove(item);
+      PriorityItem item = PriorityItem(name: itemText, priority: priority);
+      items.add(item);
+      _sortItems();
     });
   }
 
-  void _handleNewItem(String itemText, TextEditingController textController) {
-    setState(() {
-      print("Adding new item");
-      Item item = Item(name: itemText);  // Changed from const Item(name: "itemText")
-      items.insert(0, item);
-      textController.clear();
+  void _sortItems() {
+    items.sort((a, b) {
+      if (_itemSet.contains(a) != _itemSet.contains(b)) {
+        return _itemSet.contains(a) ? 1 : -1;
+      }
+      return b.priority.compareTo(a.priority);
     });
   }
 
@@ -63,24 +72,17 @@ class _ToDoListState extends State<ToDoList> {
         }).toList(),
       ),
       floatingActionButton: FloatingActionButton(
-        key: Key('AddButton'),  // Added key for testing
-        child: const Icon(Icons.add),
+        key: const Key('AddButton'),
         onPressed: () {
           showDialog(
             context: context,
             builder: (_) {
               return ToDoDialog(onListAdded: _handleNewItem);
-            }
+            },
           );
-        }
-      )
+        },
+        child: const Icon(Icons.add),
+      ),
     );
   }
-}
-
-void main() {
-  runApp(const MaterialApp(
-    title: 'To Do List',
-    home: ToDoList(),
-  ));
 }

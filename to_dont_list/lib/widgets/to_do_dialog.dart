@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 
-typedef ToDoListAddedCallback = Function(
-    String value, TextEditingController textConroller);
+typedef ToDoListAddedCallback = Function(String value, int priority);
 
 class ToDoDialog extends StatefulWidget {
   const ToDoDialog({
-    super.key,
+    Key? key,
     required this.onListAdded,
-  });
+  }) : super(key: key);
 
   final ToDoListAddedCallback onListAdded;
 
@@ -16,51 +15,53 @@ class ToDoDialog extends StatefulWidget {
 }
 
 class _ToDoDialogState extends State<ToDoDialog> {
-  // Dialog with text from https://www.appsdeveloperblog.com/alert-dialog-with-a-text-field-in-flutter/
   final TextEditingController _inputController = TextEditingController();
-  final ButtonStyle yesStyle = ElevatedButton.styleFrom(
-      textStyle: const TextStyle(fontSize: 20), backgroundColor: Colors.green);
-  final ButtonStyle noStyle = ElevatedButton.styleFrom(
-      textStyle: const TextStyle(fontSize: 20), backgroundColor: Colors.red);
-
-  String valueText = "";
+  int _priority = 1;
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Item To Add'),
-      content: TextField(
-        onChanged: (value) {
-          setState(() {
-            valueText = value;
-          });
-        },
-        controller: _inputController,
-        decoration: const InputDecoration(hintText: "type something here"),
+      title: const Text('Add New Task'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          TextField(
+            controller: _inputController,
+            decoration: const InputDecoration(hintText: "Enter task description"),
+          ),
+          const SizedBox(height: 16),
+          DropdownButton<int>(
+            value: _priority,
+            items: [1, 2, 3].map((int value) {
+              return DropdownMenuItem<int>(
+                value: value,
+                child: Text('Priority $value'),
+              );
+            }).toList(),
+            onChanged: (newValue) {
+              setState(() {
+                _priority = newValue!;
+              });
+            },
+          ),
+        ],
       ),
       actions: <Widget>[
-        ElevatedButton(
-          key: const Key("OKButton"),
-          style: yesStyle,
-          child: const Text('OK'),
+        TextButton(
+          key: const Key("CancelButton"),
+          child: const Text('Cancel'),
           onPressed: () {
-            if (valueText.isNotEmpty) {
-              widget.onListAdded(valueText, _inputController);
-              Navigator.pop(context);
-            }
+            Navigator.pop(context);
           },
         ),
-        ValueListenableBuilder<TextEditingValue>(
-          valueListenable: _inputController,
-          builder: (context, value, child) {
-            return ElevatedButton(
-              key: const Key("CancelButton"),
-              style: noStyle,
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('Cancel'),
-            );
+        ElevatedButton(
+          key: const Key("OKButton"),
+          child: const Text('Add'),
+          onPressed: () {
+            if (_inputController.text.isNotEmpty) {
+              widget.onListAdded(_inputController.text, _priority);
+              Navigator.pop(context);
+            }
           },
         ),
       ],
