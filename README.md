@@ -25,4 +25,11 @@ Our app helps users:
 
 ## Screenshots
 
+The main interface with no tasks
 ![Picture of the app](images/s1.png)
+
+What adding a task looks like
+![Task adding prompt](images/s2.png)
+
+Example list of tasks with different priorities
+![example list](images/s3.png)
