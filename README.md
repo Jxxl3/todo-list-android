@@ -23,11 +23,14 @@ Our app helps users:
 - Reduce stress by providing a clear, organized view of all pending tasks
 - Achieve goals more efficiently through better task management
 
-## Screenshots
-
-The main interface with no tasks
+<u>The main interface with no tasks</u>
+<br><br>
 <img src="images/s1.png" alt="Picture of the app" width="300"/>
-What adding a task looks like
+<br><br><br>
+<u>What adding a task looks like</u>
+<br><br>
 <img src="images/s2.png" alt="Task adding prompt" width="300"/>
-Example list of tasks with different priorities
+<br><br><br>
+<u>Example list of tasks with different priorities</u>
+<br><br>
 <img src="images/s3.png" alt="example list" width="300"/>
