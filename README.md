@@ -23,6 +23,8 @@ Our app helps users:
 - Reduce stress by providing a clear, organized view of all pending tasks
 - Achieve goals more efficiently through better task management
 
+## Screenshots
+
 <u>The main interface with no tasks</u>
 <br><br>
 <img src="images/s1.png" alt="Picture of the app" width="300"/>
