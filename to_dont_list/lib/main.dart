@@ -4,6 +4,25 @@ import 'package:to_dont_list/objects/item.dart';
 import 'package:to_dont_list/widgets/to_do_items.dart';
 import 'package:to_dont_list/widgets/to_do_dialog.dart';
 
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'To Do List',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const ToDoList(),
+    );
+  }
+}
+
 class ToDoList extends StatefulWidget {
   const ToDoList({Key? key}) : super(key: key);
 
