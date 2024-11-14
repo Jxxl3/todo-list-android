@@ -87,4 +87,20 @@ void main() {
   });
 
   // One to test the tap and press actions on the items?
+
+  testWidgets('Tapping item marks it as completed', (tester) async {
+    await tester.pumpWidget(MaterialApp(
+        home: Scaffold(
+            body: ToDoListItem(
+                item: const Item(name: "test"),
+                completed: true,
+                onListChanged: (Item item, bool completed) {},
+                onDeleteItem: (Item item) {}))));
+    await tester.tap(find.text("test"));
+    await tester.pump();
+    final itemFinder = find.byType(ToDoListItem);
+
+    ToDoListItem thing = tester.firstWidget(itemFinder);
+    expect(thing.completed, true);
+  });
 }

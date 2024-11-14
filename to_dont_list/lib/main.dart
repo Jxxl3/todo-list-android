@@ -37,7 +37,7 @@ class _ToDoListState extends State<ToDoList> {
   void _handleListChanged(Item item, bool completed) {
     if (item is PriorityItem) {
       setState(() {
-        if (completed) {
+        if (!completed) {
           _itemSet.add(item);
         } else {
           _itemSet.remove(item);
